@@ -2,16 +2,10 @@ import socket
 import serial
 import serial.tools.list_ports
 
-# # For quick view of ports in python terminal
-# import serial.tools.list_ports
-# ports = serial.tools.list_ports.comports()
-# for p, d, h in ports:
-#     print("{}: {} [{}]".format(p,d,h))
-
-
 def findComPort(board):
     ports = serial.tools.list_ports.comports()
 
+    # Mapped to a particular board only
     if board == "Leonardo":
         usbID = "USB VID:PID=2341:8036"
     elif board == "ESP32":
@@ -34,30 +28,19 @@ def connectComPort(board):
 
 def connectSocket():
     
-    # Ip, Ports combo should be same in both PCs 
+    # my_ip = (socket.gethostbyname(my_name), 4000)
+    # ot_ip = (socket.gethostbyname(ot_name), 4005)    
 
-    my_name = socket.gethostname()
-    if my_name == "PC-18671":
-        my_port = 4005 # Dell
-        ot_port = 4000 # Asus
-        ot_name = "DESKTOP-VI41OAR"
-    elif my_name == "DESKTOP-VI41OAR":
-        my_port = 4000 # Asus
-        ot_port = 4005 # Dell
-        ot_name = "PC-18671"
-    
-    my_ip = (socket.gethostbyname(my_name), my_port)
-    ot_ip = (socket.gethostbyname(ot_name), ot_port)    
+    # Hardcoding IPs since gethostbyname returned ethernet ip in some instances
+    my_ip = ("192.168.0.101", 4000)
+    ot_ip = ("192.168.0.102", 4005)
 
-    # # IP valid in WiFi: medialab_50
-
-    # if my_name == "PC-18671":
-    #     my_ip = ("192.168.1.78", 4005) # Dell
-    #     ot_ip = ("192.168.1.77", 4000) # Asus
-    # elif my_name == "DESKTOP-VI41OAR":
-    #     my_ip = ("192.168.1.77", 4000) # Asus
-    #     ot_ip = ("192.168.1.78", 4005) # Dell
-        
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.bind(my_ip)
     return (s, ot_ip)
+
+
+if __name__ == "__main__":
+    s, ot = connectSocket()
+    print(ot)
+    s.close()

@@ -3,8 +3,6 @@ import connection
 com = connection.connectComPort("Leonardo")
 sock, ot_ip = connection.connectSocket()
 
-prev, a = 0, 0
-
 try:
     while True:
         cur = com.readline()
@@ -18,3 +16,4 @@ finally:
     print("Closing")
     com.close()
     sock.close()
+    
