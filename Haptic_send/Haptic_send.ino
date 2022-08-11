@@ -1,3 +1,5 @@
+// Recieves haptic input from the mannequin arm
+
 int fsrPin = 0;
 int fsrReading;
 
@@ -6,14 +8,12 @@ void setup() {
 }
 
 void loop() {
-  fsrReading = analogRead(fsrPin);
-  Serial.println(fsrReading);
-  if (fsrReading > 750)
-    Serial.println(3);
-  else if (fsrReading > 500)
+  fsrReading = analogRead(A0);
+  if (fsrReading > 666)
     Serial.println(2);
-  else if (fsrReading > 250)
+  else if (fsrReading > 333)
     Serial.println(1);
   else
     Serial.println(0);
+  delay(10);
 }

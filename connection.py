@@ -2,10 +2,19 @@ import socket
 import serial
 import serial.tools.list_ports
 
+# # For quick view of boards' IDs, run this in python terminal
+# # Lists board name, port number and hardware ID
+
+# import serial.tools.list_ports
+# ports = serial.tools.list_ports.comports()
+# for p, d, h in ports:
+#     print("{}: {} [{}]".format(p,d,h))
+
 def findComPort(board):
+
     ports = serial.tools.list_ports.comports()
 
-    # Mapped to a particular board only
+    # Find board COM port from name of board than manually writing 'COM4'
     if board == "Leonardo":
         usbID = "USB VID:PID=2341:8036"
     elif board == "ESP32":
@@ -28,19 +37,20 @@ def connectComPort(board):
 
 def connectSocket():
     
-    # my_ip = (socket.gethostbyname(my_name), 4000)
-    # ot_ip = (socket.gethostbyname(ot_name), 4005)    
+    # Ip, Ports combo should be same in both PCs
 
-    # Hardcoding IPs since gethostbyname returned ethernet ip in some instances
-    my_ip = ("192.168.0.101", 4000)
-    ot_ip = ("192.168.0.102", 4005)
+    # my_pc_name = ""
+    # my_port = 4000
+    # other_pc_name = "
+    # other_port = 4005
+    
+    # This does not work sometimes
+    # my_ip = (socket.gethostbyname(my_name), my_port)
+    # ot_ip = (socket.gethostbyname(oter_pc_name), other_port)  
+
+    my_ip = ('192.168.0.105', 4005)
+    ot_ip = ('192.168.0.101', 4000)
 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.bind(my_ip)
     return (s, ot_ip)
-
-
-if __name__ == "__main__":
-    s, ot = connectSocket()
-    print(ot)
-    s.close()
